@@ -4,9 +4,10 @@ CREATE DATABASE SpotifyClone;
 
 CREATE TABLE SpotifyClone.planos(
     plano_id INT NOT NULL AUTO_INCREMENT,
-    Plano_tipo VARCHAR(20) NOT NULL,
+    plano_tipo VARCHAR(20) NOT NULL,
     valor DOUBLE NOT NULL,
-    CONSTRAINT PRIMARY KEY (plano_id, plano_tipo)
+    PRIMARY KEY (plano_id),
+    UNIQUE (plano_tipo)
 ) engine = InnoDB;
 
 CREATE TABLE SpotifyClone.usuarios(
@@ -33,6 +34,7 @@ CREATE TABLE SpotifyClone.albuns(
 CREATE TABLE SpotifyClone.seguidores(
     artista_id INTEGER,
     usuario_id INTEGER,
+    PRIMARY key (artista_id, usuario_id),
     FOREIGN KEY (artista_id) REFERENCES artistas(artista_id),
     FOREIGN KEY (usuario_id) REFERENCES usuarios(usuario_id)
 ) engine = InnoDB;
@@ -49,17 +51,18 @@ CREATE TABLE SpotifyClone.musicas(
 ) engine = InnoDB;
 
 CREATE TABLE SpotifyClone.historico_reproducao(
-    historico_id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    historico_id INT AUTO_INCREMENT NOT NULL,
     musica_id INT NOT NULL,
     data_reproducao DATETIME NOT NULL,
     usuario_id INT NOT NULL,
-	FOREIGN KEY (musica_id) REFERENCES musicas(musica_id),
+    PRIMARY KEY (historico_id, musica_id, usuario_id),
+	  FOREIGN KEY (musica_id) REFERENCES musicas(musica_id),
     FOREIGN KEY (usuario_id) REFERENCES usuarios(usuario_id)
 ) engine = InnoDB;
 
 INSERT INTO SpotifyClone.planos (plano_tipo, valor)
 VALUES
-  ('gratuito', 0),
+  ('gratuito', 0.00),
   ('familiar', 7.99),
   ('pessoal', 6.99),
   ('universitário', 5.99);
